@@ -6,9 +6,9 @@
   <title>Mi Cuadrante</title>
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
@@ -16,65 +16,62 @@
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       padding: 20px;
+      color: #1f2937;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
     header {
-      background: white;
-      color: #333;
+      background: rgba(255,255,255,0.96);
+      border-radius: 18px;
+      padding: 28px 20px;
       text-align: center;
-      padding: 30px;
-      border-radius: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+      margin-bottom: 18px;
     }
 
-    header h1 {
-      font-size: 2.5em;
-      margin: 0;
+    h1 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
     }
 
     nav {
       display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
     nav button {
       flex: 1;
-      padding: 15px 20px;
-      background: white;
-      color: #667eea;
       border: none;
-      border-radius: 10px;
-      font-size: 1em;
-      font-weight: bold;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 1rem;
+      font-weight: 700;
+      background: rgba(255,255,255,0.9);
+      color: #4f46e5;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
     nav button:hover {
-      background: #667eea;
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-1px);
     }
 
     nav button.activo {
-      background: #667eea;
+      background: #4f46e5;
       color: white;
     }
 
     section {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      background: rgba(255,255,255,0.96);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.12);
       min-height: 300px;
     }
 
@@ -82,109 +79,119 @@
       display: none;
     }
 
-    .card {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      margin: 15px 0;
-      padding: 20px;
+    .panel {
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      align-items: end;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    input, select, button.primary {
+      border: 1px solid #d1d5db;
       border-radius: 10px;
-      font-size: 1.1em;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
+      padding: 10px 12px;
+      font-size: 0.95rem;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
+    button.primary {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
     }
 
-    .card br {
-      margin: 10px 0;
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .card {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      border-radius: 14px;
+      padding: 18px;
+      color: white;
+      box-shadow: 0 8px 18px rgba(79,70,229,0.2);
     }
 
     .card h3 {
-      margin-bottom: 15px;
-      font-size: 1.5em;
-    }
-
-    .card p {
-      margin: 10px 0;
-      font-size: 1.05em;
-    }
-
-    .card b {
-      font-weight: bold;
-    }
-
-    #listaTurnos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .card-turno {
-      background: white;
-      color: #333;
-      border-left: 5px solid #667eea;
-      margin: 0;
-    }
-
-    .card-turno .emoji {
-      font-size: 2em;
-      margin-right: 10px;
-    }
-
-    .card-turno .tipo {
-      font-weight: bold;
-      font-size: 1.2em;
+      font-size: 1.2rem;
       margin-bottom: 10px;
     }
 
-    .card-turno .horario {
-      color: #667eea;
-      font-weight: bold;
+    .card p {
+      margin: 8px 0;
+      font-size: 1rem;
     }
 
-    #contenedorStats .card {
+    .card strong {
+      font-size: 1.05rem;
+    }
+
+    .stats-card {
       background: white;
-      color: #333;
+      border: 1px solid #e5e7eb;
+      color: #1f2937;
+      box-shadow: none;
     }
 
-    #contenedorStats .card h3 {
-      color: #667eea;
+    .stats-card h3 {
+      color: #4f46e5;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
-    #contenedorStats .card p {
+    .stats-card p {
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 10px 0;
+      margin: 0;
     }
 
-    #contenedorStats .card p:last-child {
+    .stats-card p:last-child {
       border-bottom: none;
-      margin-top: 15px;
-      font-size: 1.2em;
-      color: #667eea;
+      margin-top: 8px;
+      font-size: 1.08rem;
+    }
+
+    .empty {
+      text-align: center;
+      color: #6b7280;
+      padding: 20px 10px;
+      font-style: italic;
     }
 
     @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.8em;
-      }
-
       nav {
         flex-direction: column;
       }
 
       section {
-        padding: 20px;
+        padding: 18px;
       }
     }
   </style>
 </head>
-
 <body>
   <div class="container">
     <header>
@@ -197,7 +204,25 @@
     </nav>
 
     <section id="turnos">
-      <div id="listaTurnos"></div>
+      <div class="panel">
+        <div class="form-grid">
+          <label>
+            Nombre del turno
+            <input id="tipoTurno" type="text" placeholder="Ej: Oficina, Home office..." value="Oficina">
+          </label>
+          <label>
+            Hora inicio
+            <input id="horaInicio" type="time" value="09:00">
+          </label>
+          <label>
+            Hora fin
+            <input id="horaFin" type="time" value="17:00">
+          </label>
+          <button class="primary" id="btnAgregarTurno">Añadir turno</button>
+        </div>
+      </div>
+
+      <div id="listaTurnos" class="cards"></div>
     </section>
 
     <section id="estadisticas" class="oculto">
@@ -206,51 +231,145 @@
   </div>
 
   <script>
-    // Datos de turnos
-    const turnos = [
-      { emoji: '🏠', tipo: 'Teletrabajo', horario: '15:00 - 23:00' },
-      { emoji: '🏢', tipo: 'Oficina', horario: '08:00 - 16:00' },
-      { emoji: '👍', tipo: 'Libre', horario: 'Día libre' },
-      { emoji: '✈️', tipo: 'Vacaciones', horario: 'Fuera' }
-    ];
+    const STORAGE_KEY = 'mi-cuadrante-web-state';
 
-    // Renderizar turnos
-    document.getElementById("listaTurnos").innerHTML = turnos.map(turno => `
-      <div class="card card-turno">
-        <div class="tipo"><span class="emoji">${turno.emoji}</span> ${turno.tipo}</div>
-        <div class="horario">${turno.horario}</div>
-      </div>
-    `).join('');
+    const defaultData = {
+      turnos: [
+        { tipo: 'Teletrabajo', inicio: '15:00', fin: '23:00' },
+        { tipo: 'Oficina', inicio: '09:00', fin: '17:00' }
+      ]
+    };
 
-    // Renderizar estadísticas
-    document.getElementById("contenedorStats").innerHTML = `
-      <div class="card">
-        <h3>📊 Estadísticas del Mes</h3>
-        <p><span>🏠 Teletrabajo</span> <span>10 días</span></p>
-        <p><span>🏢 Oficina</span> <span>8 días</span></p>
-        <p><span>👍 Libres</span> <span>11 días</span></p>
-        <p><span>✈️ Vacaciones</span> <span>2 días</span></p>
-        <p><span><b>⏱️ Total Horas</b></span> <span><b>143 horas</b></span></p>
-      </div>
-    `;
+    function getState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultData));
+        return JSON.parse(JSON.stringify(defaultData));
+      }
 
-    // Función para cambiar de vista
-    function mostrarVista(id) {
-      // Ocultar todas las secciones
-      document.getElementById("turnos").classList.add("oculto");
-      document.getElementById("estadisticas").classList.add("oculto");
-
-      // Remover clase activo de botones
-      document.querySelectorAll("nav button").forEach(btn => {
-        btn.classList.remove("activo");
-      });
-
-      // Mostrar sección seleccionada
-      document.getElementById(id).classList.remove("oculto");
-
-      // Marcar botón como activo
-      event.target.classList.add("activo");
+      try {
+        return JSON.parse(raw);
+      } catch (error) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultData));
+        return JSON.parse(JSON.stringify(defaultData));
+      }
     }
+
+    function saveState(state) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function formatearHorario(inicio, fin) {
+      if (!inicio || !fin) return 'Sin horario';
+      return `${inicio} - ${fin}`;
+    }
+
+    function renderTurnos() {
+      const state = getState();
+      const lista = document.getElementById('listaTurnos');
+
+      if (!state.turnos || state.turnos.length === 0) {
+        lista.innerHTML = '<div class="empty">No hay turnos guardados todavía.</div>';
+        return;
+      }
+
+      lista.innerHTML = state.turnos.map((turno, index) => `
+        <div class="card">
+          <h3>🏷️ ${turno.tipo}</h3>
+          <p><strong>Horario:</strong> ${formatearHorario(turno.inicio, turno.fin)}</p>
+          <p><strong>Acción:</strong> <button class="primary" data-index="${index}" style="margin-top:10px; padding:8px 12px; font-size:0.8rem;">Eliminar</button></p>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('[data-index]').forEach(button => {
+        button.addEventListener('click', () => {
+          const index = Number(button.dataset.index);
+          const state = getState();
+          state.turnos.splice(index, 1);
+          saveState(state);
+          renderTurnos();
+          renderStats();
+        });
+      });
+    }
+
+    function calcularEstadisticas() {
+      const state = getState();
+      const turnos = state.turnos || [];
+
+      const total = turnos.length;
+      const teletrabajo = turnos.filter(t => /teletrabajo|home|remote/i.test(t.tipo)).length;
+      const oficina = turnos.filter(t => /oficina|presencial|office/i.test(t.tipo)).length;
+      const libres = Math.max(0, 30 - total);
+
+      return {
+        total,
+        teletrabajo,
+        oficina,
+        libres,
+        horas: turnos.reduce((acc, turno) => {
+          if (!turno.inicio || !turno.fin) return acc;
+          const [h1, m1] = turno.inicio.split(':').map(Number);
+          const [h2, m2] = turno.fin.split(':').map(Number);
+          const inicioMin = h1 * 60 + m1;
+          const finMin = h2 * 60 + m2;
+          const diff = Math.max(0, finMin - inicioMin);
+          return acc + (diff / 60);
+        }, 0)
+      };
+    }
+
+    function renderStats() {
+      const stats = calcularEstadisticas();
+      document.getElementById('contenedorStats').innerHTML = `
+        <div class="card stats-card">
+          <h3>📊 Estadísticas</h3>
+          <p><span>🏠 Teletrabajo</span> <span>${stats.teletrabajo}</span></p>
+          <p><span>🏢 Oficina</span> <span>${stats.oficina}</span></p>
+          <p><span>👍 Libres</span> <span>${stats.libres}</span></p>
+          <p><span>🕒 Total horas</span> <span>${stats.horas.toFixed(1)}h</span></p>
+        </div>
+      `;
+    }
+
+    function agregarTurno() {
+      const tipo = document.getElementById('tipoTurno').value.trim();
+      const inicio = document.getElementById('horaInicio').value;
+      const fin = document.getElementById('horaFin').value;
+
+      if (!tipo) {
+        alert('Escribe un nombre para el turno');
+        return;
+      }
+
+      if (!inicio || !fin) {
+        alert('Debes indicar la hora de inicio y fin');
+        return;
+      }
+
+      const state = getState();
+      state.turnos.push({ tipo, inicio, fin });
+      saveState(state);
+      renderTurnos();
+      renderStats();
+      document.getElementById('tipoTurno').value = '';
+      document.getElementById('tipoTurno').focus();
+    }
+
+    function mostrarVista(id) {
+      document.getElementById('turnos').classList.add('oculto');
+      document.getElementById('estadisticas').classList.add('oculto');
+
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('activo'));
+      document.getElementById(id).classList.remove('oculto');
+      const activeButton = [...document.querySelectorAll('nav button')].find(btn => btn.textContent.includes(id === 'turnos' ? 'Turnos' : 'Estadísticas'));
+      if (activeButton) activeButton.classList.add('activo');
+    }
+
+    document.getElementById('btnAgregarTurno').addEventListener('click', agregarTurno);
+
+    renderTurnos();
+    renderStats();
   </script>
 </body>
 </html>
