@@ -4,29 +4,253 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Cuadrante</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: white;
+      color: #333;
+      text-align: center;
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    nav button {
+      flex: 1;
+      padding: 15px 20px;
+      background: white;
+      color: #667eea;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    nav button:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    nav button.activo {
+      background: #667eea;
+      color: white;
+    }
+
+    section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      min-height: 300px;
+    }
+
+    section.oculto {
+      display: none;
+    }
+
+    .card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin: 15px 0;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card br {
+      margin: 10px 0;
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+      font-size: 1.5em;
+    }
+
+    .card p {
+      margin: 10px 0;
+      font-size: 1.05em;
+    }
+
+    .card b {
+      font-weight: bold;
+    }
+
+    #listaTurnos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card-turno {
+      background: white;
+      color: #333;
+      border-left: 5px solid #667eea;
+      margin: 0;
+    }
+
+    .card-turno .emoji {
+      font-size: 2em;
+      margin-right: 10px;
+    }
+
+    .card-turno .tipo {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    .card-turno .horario {
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    #contenedorStats .card {
+      background: white;
+      color: #333;
+    }
+
+    #contenedorStats .card h3 {
+      color: #667eea;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #contenedorStats .card p {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    #contenedorStats .card p:last-child {
+      border-bottom: none;
+      margin-top: 15px;
+      font-size: 1.2em;
+      color: #667eea;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8em;
+      }
+
+      nav {
+        flex-direction: column;
+      }
+
+      section {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="container">
+    <header>
+      <h1>📅 Mi Cuadrante</h1>
+    </header>
 
-  <header>
-    <h1>📅 Mi Cuadrante</h1>
-  </header>
+    <nav>
+      <button class="activo" onclick="mostrarVista('turnos')">📅 Turnos</button>
+      <button onclick="mostrarVista('estadisticas')">📊 Estadísticas</button>
+    </nav>
 
-  <nav>
-    <button onclick="mostrarVista('turnos')">📅 Turnos</button>
-    <button onclick="mostrarVista('estadisticas')">📊 Estadísticas</button>
-  </nav>
+    <section id="turnos">
+      <div id="listaTurnos"></div>
+    </section>
 
-  <section id="turnos">
-    <div id="listaTurnos"></div>
-  </section>
+    <section id="estadisticas" class="oculto">
+      <div id="contenedorStats"></div>
+    </section>
+  </div>
 
-  <section id="estadisticas" class="oculto">
-    <div id="contenedorStats"></div>
-  </section>
+  <script>
+    // Datos de turnos
+    const turnos = [
+      { emoji: '🏠', tipo: 'Teletrabajo', horario: '15:00 - 23:00' },
+      { emoji: '🏢', tipo: 'Oficina', horario: '08:00 - 16:00' },
+      { emoji: '👍', tipo: 'Libre', horario: 'Día libre' },
+      { emoji: '✈️', tipo: 'Vacaciones', horario: 'Fuera' }
+    ];
 
-  <script src="css/js/app.js"></script>
+    // Renderizar turnos
+    document.getElementById("listaTurnos").innerHTML = turnos.map(turno => `
+      <div class="card card-turno">
+        <div class="tipo"><span class="emoji">${turno.emoji}</span> ${turno.tipo}</div>
+        <div class="horario">${turno.horario}</div>
+      </div>
+    `).join('');
 
+    // Renderizar estadísticas
+    document.getElementById("contenedorStats").innerHTML = `
+      <div class="card">
+        <h3>📊 Estadísticas del Mes</h3>
+        <p><span>🏠 Teletrabajo</span> <span>10 días</span></p>
+        <p><span>🏢 Oficina</span> <span>8 días</span></p>
+        <p><span>👍 Libres</span> <span>11 días</span></p>
+        <p><span>✈️ Vacaciones</span> <span>2 días</span></p>
+        <p><span><b>⏱️ Total Horas</b></span> <span><b>143 horas</b></span></p>
+      </div>
+    `;
+
+    // Función para cambiar de vista
+    function mostrarVista(id) {
+      // Ocultar todas las secciones
+      document.getElementById("turnos").classList.add("oculto");
+      document.getElementById("estadisticas").classList.add("oculto");
+
+      // Remover clase activo de botones
+      document.querySelectorAll("nav button").forEach(btn => {
+        btn.classList.remove("activo");
+      });
+
+      // Mostrar sección seleccionada
+      document.getElementById(id).classList.remove("oculto");
+
+      // Marcar botón como activo
+      event.target.classList.add("activo");
+    }
+  </script>
 </body>
 </html>
