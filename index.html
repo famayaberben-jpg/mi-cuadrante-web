@@ -1,102 +1,89 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mi Cuadrante</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3f37b6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --bg: #eef2ff;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
     }
 
+    * { box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: var(--text);
       min-height: 100vh;
-      padding: 20px;
-      color: #1f2937;
+      padding: 24px;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
     header {
       background: rgba(255,255,255,0.96);
       border-radius: 18px;
-      padding: 28px 20px;
+      padding: 26px 20px;
       text-align: center;
       box-shadow: 0 12px 25px rgba(0,0,0,0.12);
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
-    h1 {
-      font-size: clamp(2rem, 4vw, 2.8rem);
-      font-weight: 800;
-    }
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 2.8rem); }
 
     nav {
       display: flex;
+      flex-wrap: wrap;
       gap: 12px;
       margin-bottom: 18px;
-      flex-wrap: wrap;
     }
 
     nav button {
+      flex: 1 1 140px;
       border: none;
       border-radius: 12px;
-      padding: 14px 20px;
-      font-size: 1rem;
+      padding: 14px 16px;
       font-weight: 700;
-      background: rgba(255,255,255,0.9);
-      color: #4f46e5;
       cursor: pointer;
+      background: rgba(255,255,255,0.9);
+      color: var(--primary);
       box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-      transition: transform 0.2s ease, background 0.2s ease;
-      flex: 1;
-      min-width: 120px;
-    }
-
-    nav button:hover {
-      transform: translateY(-1px);
     }
 
     nav button.activo {
-      background: #4f46e5;
+      background: var(--primary);
       color: white;
-    }
-
-    nav button.util {
-      background: rgba(255,165,0,0.9);
-      color: white;
-      flex: 0 1 auto;
-    }
-
-    nav button.util:hover {
-      background: rgba(255,140,0,1);
     }
 
     section {
       background: rgba(255,255,255,0.96);
       border-radius: 18px;
-      padding: 24px;
+      padding: 22px;
       box-shadow: 0 12px 25px rgba(0,0,0,0.12);
-      min-height: 300px;
+      min-height: 240px;
     }
 
-    section.oculto {
-      display: none;
-    }
+    section.oculto { display: none; }
 
     .panel {
       background: #f8fafc;
+      border: 1px solid var(--border);
       border-radius: 14px;
       padding: 18px;
       margin-bottom: 18px;
-      border: 1px solid #e5e7eb;
     }
 
     .form-grid {
@@ -116,466 +103,124 @@
     }
 
     input, select, button.primary {
-      border: 1px solid #d1d5db;
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 10px 12px;
       font-size: 0.95rem;
     }
 
     button.primary {
-      background: #4f46e5;
+      background: var(--primary);
       color: white;
       border: none;
       font-weight: 700;
       cursor: pointer;
-    }
-
-    button.primary:hover {
-      background: #4338ca;
-    }
-
-    /* CALENDARIO */
-    .calendario-container {
-      margin: 20px 0;
-    }
-
-    .calendario-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      gap: 12px;
-    }
-
-    .calendario-header h2 {
-      color: #1f2937;
-      font-size: 1.3rem;
-    }
-
-    .calendario-header button {
-      background: #4f46e5;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 16px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .calendario-nav {
-      display: flex;
-      gap: 8px;
-    }
-
-    .calendario-nav button {
-      padding: 8px 12px;
-      font-size: 0.9rem;
     }
 
     .week-grid {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(7, minmax(120px, 1fr));
       gap: 12px;
-      margin-top: 16px;
-    }
-
-    .day-card {
-      background: white;
-      border: 2px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 14px;
-      min-height: 140px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .day-card:hover {
-      border-color: #4f46e5;
-      box-shadow: 0 8px 16px rgba(79,70,229,0.1);
-    }
-
-    .day-card.hoy {
-      border-color: #10b981;
-      background: #f0fdf4;
-    }
-
-    .day-card.proximo {
-      border-color: #fbbf24;
-    }
-
-    .day-card.activo {
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-      color: white;
-      border-color: #4f46e5;
-    }
-
-    .day-card h4 {
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-      opacity: 0.8;
-    }
-
-    .day-card.activo h4 {
-      opacity: 1;
-    }
-
-    .day-fecha {
-      font-weight: 700;
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-    }
-
-    .day-turno {
-      font-size: 0.85rem;
-      line-height: 1.4;
-    }
-
-    .day-turno strong {
-      display: block;
-      margin-top: 6px;
-    }
-
-    .day-turno .horario {
-      font-size: 0.8rem;
-      opacity: 0.8;
-      margin-top: 4px;
-    }
-
-    .day-card.vacio {
-      opacity: 0.5;
-      cursor: pointer;
-    }
-
-    /* TARJETAS */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
       margin-top: 18px;
     }
 
-    .card {
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-      border-radius: 14px;
-      padding: 18px;
+    .day-card {
+      min-height: 140px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .day-card:hover { border-color: var(--primary); }
+    .day-card.activo {
+      background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
       color: white;
+      border-color: var(--primary);
+    }
+    .day-card.hoy {
+      border-color: var(--success);
+      background: #f0fdf4;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .card {
+      background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+      color: white;
+      border-radius: 14px;
+      padding: 16px;
       box-shadow: 0 8px 18px rgba(79,70,229,0.2);
     }
 
-    .card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-    }
+    .card h3 { margin-top: 0; }
+    .card p { margin: 8px 0; }
 
-    .card p {
-      margin: 8px 0;
-      font-size: 1rem;
-    }
-
-    .card strong {
-      font-size: 1.05rem;
-    }
-
-    .card .buttons {
+    .button-row {
       display: flex;
-      gap: 8px;
-      margin-top: 12px;
       flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
     }
 
-    .card button {
-      background: rgba(255,255,255,0.2);
-      color: white;
+    .button-row button {
+      flex: 1 1 150px;
+      min-height: 44px;
       border: none;
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: background 0.2s;
-      flex: 1;
-      min-width: 80px;
-    }
-
-    .card button:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
-    .stats-card {
-      background: white;
-      border: 1px solid #e5e7eb;
-      color: #1f2937;
-      box-shadow: none;
-    }
-
-    .stats-card h3 {
-      color: #4f46e5;
-      text-align: center;
-      margin-bottom: 14px;
-      border-bottom: 2px solid #e5e7eb;
-      padding-bottom: 12px;
-    }
-
-    .stats-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 12px 0;
-      margin: 0;
-    }
-
-    .stats-row:last-child {
-      border-bottom: none;
-    }
-
-    .stats-row span:first-child {
-      font-weight: 600;
-    }
-
-    .stats-row.limite {
-      color: #ef4444;
+      border-radius: 10px;
       font-weight: 700;
+      color: white;
+      cursor: pointer;
+      background: var(--primary);
     }
 
-    .stats-row.ok {
-      color: #10b981;
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 8px;
-      background: #e5e7eb;
-      border-radius: 4px;
-      margin: 8px 0;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
-      transition: width 0.3s ease;
-    }
-
-    .progress-fill.warning {
-      background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-    }
-
-    .progress-fill.danger {
-      background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
-    }
-
-    .empty {
-      text-align: center;
-      color: #6b7280;
-      padding: 20px 10px;
-      font-style: italic;
-    }
+    .button-row button.success { background: var(--success); }
+    .button-row button.warning { background: var(--warning); }
+    .button-row button.danger { background: var(--danger); }
 
     .json-panel {
       background: #1f2937;
       color: #10b981;
       border-radius: 14px;
       padding: 16px;
-      font-family: 'Monaco', 'Courier New', monospace;
+      font-family: "Consolas", monospace;
       font-size: 0.85rem;
       line-height: 1.5;
-      overflow-x: auto;
-      margin: 16px 0;
-      max-height: 300px;
-      overflow-y: auto;
-      border: 1px solid #374151;
-    }
-
-    .json-panel pre {
-      margin: 0;
-    }
-
-    .button-group {
-      display: flex;
-      gap: 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 360px;
+      overflow: auto;
       margin-top: 12px;
-      flex-wrap: wrap;
-    }
-
-    .button-group button {
-      flex: 1;
-      min-width: 140px;
-    }
-
-    .success {
-      background: #10b981;
-      border: 1px solid #059669;
-    }
-
-    .danger {
-      background: #ef4444;
-      border: 1px solid #dc2626;
-    }
-
-    #fileInput {
-      display: none;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal.activo {
-      display: flex;
-    }
-
-    .modal-content {
-      background: white;
-      border-radius: 18px;
-      padding: 24px;
-      max-width: 600px;
-      width: 100%;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-content h2 {
-      margin-bottom: 16px;
-      color: #1f2937;
-    }
-
-    .modal-content p {
-      margin: 12px 0;
-      color: #6b7280;
-    }
-
-    .modal-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin: 20px 0;
-    }
-
-    .modal-form label {
-      gap: 6px;
-    }
-
-    .modal-form input,
-    .modal-form select {
-      width: 100%;
-    }
-
-    .modal-buttons {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .modal-buttons button {
-      flex: 1;
-      border: none;
-      border-radius: 10px;
-      padding: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .modal-buttons button:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-cancel {
-      background: #e5e7eb;
-      color: #1f2937;
-    }
-
-    .btn-confirm {
-      background: #4f46e5;
-      color: white;
     }
 
     .notification {
       position: fixed;
       top: 20px;
       right: 20px;
-      background: #10b981;
+      background: var(--success);
       color: white;
-      padding: 16px 24px;
+      padding: 14px 18px;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      z-index: 2000;
-      animation: slideIn 0.3s ease;
+      z-index: 1000;
+      animation: slideIn 0.25s ease;
     }
 
     @keyframes slideIn {
-      from {
-        transform: translateX(400px);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
     }
 
-    @media (max-width: 900px) {
-      .week-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      }
-
-      .day-card {
-        min-height: 120px;
-        padding: 10px;
-      }
-
-      .day-fecha {
-        font-size: 1rem;
-      }
-
-      .day-turno {
-        font-size: 0.8rem;
-      }
-    }
-
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-      }
-
-      nav button {
-        flex: 1;
-      }
-
-      section {
-        padding: 18px;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .week-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      }
-
-      .day-card {
-        min-height: 100px;
-        padding: 8px;
-        font-size: 0.85rem;
-      }
-
-      .calendario-header {
-        flex-direction: column;
-        align-items: stretch;
-      }
+    @media (max-width: 680px) {
+      body { padding: 12px; }
+      .week-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
     }
   </style>
 </head>
@@ -586,110 +231,71 @@
     </header>
 
     <nav>
-      <button class="activo" onclick="mostrarVista('calendario')">📆 Calendario</button>
-      <button onclick="mostrarVista('turnos')">📋 Turnos</button>
-      <button onclick="mostrarVista('estadisticas')">📊 Estadísticas</button>
-      <button class="util" onclick="mostrarVista('datos')">💾 Datos</button>
+      <button class="activo" data-view="calendario">📆 Calendario</button>
+      <button data-view="turnos">📋 Turnos</button>
+      <button data-view="datos">💾 Datos</button>
     </nav>
 
     <section id="calendario">
-      <div class="calendario-container">
-        <div class="calendario-header">
-          <div>
-            <h2 id="mesAnio"></h2>
-            <small id="semanaInfo" style="color: #6b7280;"></small>
-          </div>
-          <div class="calendario-nav">
-            <button onclick="semanaAnterior()">◀ Anterior</button>
-            <button onclick="semanaActual()" style="background: #10b981;">Hoy</button>
-            <button onclick="semanaSiguiente()">Siguiente ▶</button>
-          </div>
-        </div>
-        <div class="week-grid" id="weekGrid"></div>
+      <div class="panel">
+        <h2 id="mesAnio">Calendario</h2>
+        <div id="weekGrid" class="week-grid"></div>
       </div>
     </section>
 
     <section id="turnos" class="oculto">
       <div class="panel">
-        <h2 style="margin-bottom: 16px; color: #1f2937;">➕ Añadir nuevo turno</h2>
+        <h2>➕ Añadir turno</h2>
         <div class="form-grid">
           <label>
             Nombre del turno
-            <input id="tipoTurno" type="text" placeholder="Ej: Oficina, Home office..." value="Oficina">
+            <input id="tipoTurno" type="text" value="Jornada backup" />
           </label>
           <label>
             Hora inicio
-            <input id="horaInicio" type="time" value="09:00">
+            <input id="horaInicio" type="time" value="09:00" />
           </label>
           <label>
             Hora fin
-            <input id="horaFin" type="time" value="17:00">
+            <input id="horaFin" type="time" value="17:00" />
           </label>
           <button class="primary" id="btnAgregarTurno">Añadir turno</button>
         </div>
       </div>
 
-      <h2 style="margin: 20px 0 16px; color: #1f2937;">📋 Mis Turnos</h2>
       <div id="listaTurnos" class="cards"></div>
-    </section>
-
-    <section id="estadisticas" class="oculto">
-      <h2 style="margin-bottom: 20px; color: #1f2937;">📊 Estadísticas</h2>
-      <div class="cards">
-        <div id="contenedorStats" class="stats-card"></div>
-      </div>
     </section>
 
     <section id="datos" class="oculto">
       <div class="panel">
-        <h2 style="margin-bottom: 16px; color: #1f2937;">💾 Gestión de Datos</h2>
-        <p style="margin-bottom: 16px; color: #6b7280;">Exporta e importa tus turnos en formato JSON. Puedes guardar una copia de seguridad o compartir tus datos.</p>
-        
-        <div class="button-group">
-          <button class="primary success" onclick="exportarJSON()">📥 Exportar JSON</button>
-          <button class="primary" onclick="document.getElementById('fileInput').click()">📤 Importar JSON</button>
-          <button class="primary danger" onclick="mostrarConfirmacionLimpiar()">🗑️ Limpiar todo</button>
+        <h2>💾 Datos cargados automáticamente</h2>
+        <p>Si existe <strong>jornada_backup_2026_octubre.json</strong> en la raíz del proyecto, se carga al abrir la página.</p>
+        <div class="button-row">
+          <button class="success" id="btnExportar">📥 Exportar JSON</button>
+          <button class="warning" id="btnImportar">📤 Importar JSON</button>
+          <button class="danger" id="btnLimpiar">🗑️ Limpiar</button>
         </div>
-
-        <input type="file" id="fileInput" accept=".json" onchange="manejarArchivo(event)">
-
-        <h3 style="margin-top: 24px; margin-bottom: 12px; color: #1f2937;">Vista previa JSON:</h3>
-        <div class="json-panel">
-          <pre id="jsonPreview"></pre>
-        </div>
+        <input type="file" id="fileInput" accept=".json" style="display:none" />
+        <div id="jsonPreview" class="json-panel">Cargando backup...</div>
       </div>
     </section>
   </div>
 
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <h2 id="modalTitle">Confirmar</h2>
-      <p id="modalMessage"></p>
-      <div id="modalForm" class="modal-form"></div>
-      <div class="modal-buttons">
-        <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
-        <button class="btn-confirm" id="btnModalConfirm">Confirmar</button>
-      </div>
-    </div>
-  </div>
-
   <script>
     const STORAGE_KEY = 'mi-cuadrante-estado';
-    const dias = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'];
-    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    
-    const LIMITE_ANUAL = 1764; // horas
-    const LIMITE_SEMANAL = 48; // horas
-
-    let fechaSeleccionada = new Date();
-
+    const BACKUP_KEY = 'mi-cuadrante-backup';
     const defaultData = {
-      turnos: [
-        { id: Date.now(), tipo: 'Teletrabajo', inicio: '15:00', fin: '23:00' },
-        { id: Date.now() + 1, tipo: 'Oficina', inicio: '09:00', fin: '17:00' }
-      ],
+      turnos: [{ id: 1, tipo: 'Jornada backup', inicio: '09:00', fin: '17:00' }],
       calendario: {}
     };
+
+    function mostrarNotificacion(msg) {
+      const node = document.createElement('div');
+      node.className = 'notification';
+      node.textContent = msg;
+      document.body.appendChild(node);
+      setTimeout(() => node.remove(), 2200);
+    }
 
     function getState() {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -700,7 +306,7 @@
 
       try {
         return JSON.parse(raw);
-      } catch (error) {
+      } catch (e) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultData));
         return JSON.parse(JSON.stringify(defaultData));
       }
@@ -708,42 +314,31 @@
 
     function saveState(state) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      actualizarPreview();
       renderCalendario();
-      renderStats();
+      renderTurnos();
+      renderJsonPreview();
     }
 
-    function exportarAutomaticamente() {
-      const state = getState();
-      const dataStr = JSON.stringify(state, null, 2);
-      const dataBlob = new Blob([dataStr], { type: 'application/json' });
-      const url = URL.createObjectURL(dataBlob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `mi-cuadrante-${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      mostrarNotificacion('✅ Datos exportados automáticamente');
+    function mostrarVista(nombre) {
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.toggle('activo', btn.dataset.view === nombre));
+      document.querySelectorAll('section').forEach(section => {
+        const visible = section.id === nombre;
+        section.classList.toggle('oculto', !visible);
+      });
     }
 
-    function formatearHorario(inicio, fin) {
-      if (!inicio || !fin) return 'Sin horario';
-      return `${inicio} - ${fin}`;
+    function formatHorario(inicio, fin) {
+      return `${inicio || '00:00'} - ${fin || '00:00'}`;
     }
 
     function calcularHoras(inicio, fin) {
       if (!inicio || !fin) return 0;
       const [h1, m1] = inicio.split(':').map(Number);
       const [h2, m2] = fin.split(':').map(Number);
-      const inicioMin = h1 * 60 + m1;
-      const finMin = h2 * 60 + m2;
-      const diff = Math.max(0, finMin - inicioMin);
-      return diff / 60;
+      return Math.max(0, (h2 * 60 + m2) - (h1 * 60 + m1)) / 60;
     }
 
-    function getLunesSemanasActual(fecha) {
+    function getLunesSemana(fecha) {
       const d = new Date(fecha);
       const day = d.getDay();
       const diff = d.getDate() - day + (day === 0 ? -6 : 1);
@@ -751,446 +346,176 @@
     }
 
     function renderCalendario() {
-      const lunes = getLunesSemanasActual(fechaSeleccionada);
       const state = getState();
-      const gridHTML = [];
+      const base = getLunesSemana(new Date());
+      const grid = document.getElementById('weekGrid');
+      const html = [];
 
       for (let i = 0; i < 7; i++) {
-        const fecha = new Date(lunes);
-        fecha.setDate(fecha.getDate() + i);
-        const fechaStr = fecha.toISOString().split('T')[0];
-        const hoy = new Date().toISOString().split('T')[0];
-        const turnoHoy = state.calendario[fechaStr];
+        const date = new Date(base);
+        date.setDate(base.getDate() + i);
+        const iso = date.toISOString().split('T')[0];
+        const active = state.calendario?.[iso];
+        const turno = active ? state.turnos.find(t => t.id === active.turnoId) : null;
+        const dayName = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'][i];
+        const today = new Date().toISOString().split('T')[0] === iso;
 
-        let cardHTML = `<div class="day-card ${turnoHoy ? 'activo' : 'vacio'} ${fechaStr === hoy ? 'hoy' : ''}" onclick="mostrarSelectorTurno('${fechaStr}')">`;
-        cardHTML += `<h4>${dias[i]}</h4>`;
-        cardHTML += `<div class="day-fecha">${fecha.getDate()}</div>`;
-
-        if (turnoHoy) {
-          const turno = state.turnos.find(t => t.id == turnoHoy.turnoId);
-          if (turno) {
-            cardHTML += `<div class="day-turno"><strong>${turno.tipo}</strong><div class="horario">${formatearHorario(turno.inicio, turno.fin)}</div></div>`;
-          }
-        } else {
-          cardHTML += `<div style="font-size: 0.8rem; opacity: 0.6;">Añadir turno</div>`;
-        }
-
-        cardHTML += `</div>`;
-        gridHTML.push(cardHTML);
+        html.push(`
+          <div class="day-card ${active ? 'activo' : ''} ${today ? 'hoy' : ''}">
+            <div>${dayName}</div>
+            <div style="font-weight:700; font-size:1.1rem; margin:8px 0;">${date.getDate()}</div>
+            ${turno ? `<div><strong>${turno.tipo}</strong><div>${formatHorario(turno.inicio, turno.fin)}</div></div>` : '<div style="opacity:0.7;">Añadir turno</div>'}
+          </div>
+        `);
       }
 
-      document.getElementById('weekGrid').innerHTML = gridHTML.join('');
-
-      const mesInfo = `${meses[lunes.getMonth()]} ${lunes.getFullYear()}`;
-      const semanaInfo = `Semana del ${lunes.getDate()} al ${new Date(lunes.getTime() + 6 * 24 * 60 * 60 * 1000).getDate()}`;
-      document.getElementById('mesAnio').textContent = mesInfo;
-      document.getElementById('semanaInfo').textContent = semanaInfo;
-    }
-
-    function mostrarSelectorTurno(fechaStr) {
-      const state = getState();
-      const turnoActual = state.calendario[fechaStr];
-      const turnoActualId = turnoActual ? turnoActual.turnoId : null;
-
-      const modal = document.getElementById('modal');
-      const fecha = new Date(fechaStr + 'T00:00:00');
-      const diaSemana = dias[fecha.getDay() === 0 ? 6 : fecha.getDay() - 1];
-
-      document.getElementById('modalTitle').textContent = `📅 ${diaSemana} ${fecha.getDate()} de ${meses[fecha.getMonth()]}`;
-      document.getElementById('modalMessage').textContent = 'Selecciona un turno o elimina el actual:';
-
-      let formHTML = '<div style="display: grid; gap: 12px;">';
-      formHTML += '<select id="turnoSelect" style="border: 1px solid #d1d5db; border-radius: 10px; padding: 12px; font-size: 1rem;">';
-      formHTML += '<option value="">-- Seleccionar turno --</option>';
-      state.turnos.forEach(turno => {
-        const selected = turno.id == turnoActualId ? 'selected' : '';
-        formHTML += `<option value="${turno.id}" ${selected}>${turno.tipo} (${formatearHorario(turno.inicio, turno.fin)})</option>`;
-      });
-      formHTML += '</select></div>';
-
-      document.getElementById('modalForm').innerHTML = formHTML;
-
-      const btnConfirm = document.getElementById('btnModalConfirm');
-      btnConfirm.textContent = 'Guardar';
-      btnConfirm.style.background = '#4f46e5';
-      btnConfirm.onclick = () => {
-        const turnoId = document.getElementById('turnoSelect').value;
-        if (turnoId) {
-          state.calendario[fechaStr] = { turnoId: Number(turnoId) };
-        } else {
-          delete state.calendario[fechaStr];
-        }
-        saveState(state);
-        cerrarModal();
-      };
-
-      modal.classList.add('activo');
+      grid.innerHTML = html.join('');
+      const month = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][base.getMonth()];
+      document.getElementById('mesAnio').textContent = `${month} ${base.getFullYear()}`;
     }
 
     function renderTurnos() {
       const state = getState();
       const lista = document.getElementById('listaTurnos');
 
-      if (!state.turnos || state.turnos.length === 0) {
-        lista.innerHTML = '<div class="empty">No hay turnos guardados todavía.</div>';
-        return;
-      }
-
-      lista.innerHTML = state.turnos.map((turno) => `
+      lista.innerHTML = (state.turnos || []).map(turno => `
         <div class="card">
           <h3>🏷️ ${turno.tipo}</h3>
-          <p><strong>Horario:</strong> ${formatearHorario(turno.inicio, turno.fin)}</p>
+          <p><strong>Horario:</strong> ${formatHorario(turno.inicio, turno.fin)}</p>
           <p><strong>Duración:</strong> ${calcularHoras(turno.inicio, turno.fin).toFixed(1)}h</p>
-          <div class="buttons">
-            <button onclick="mostrarEditarTurno(${turno.id})">Editar</button>
-            <button onclick="eliminarTurno(${turno.id})">Eliminar</button>
-          </div>
         </div>
       `).join('');
     }
 
-    function mostrarEditarTurno(turnoId) {
-      const state = getState();
-      const turno = state.turnos.find(t => t.id === turnoId);
-      if (!turno) return;
+    function renderJsonPreview() {
+      const preview = document.getElementById('jsonPreview');
+      const backup = JSON.parse(localStorage.getItem(BACKUP_KEY) || 'null');
+      if (backup) {
+        preview.textContent = JSON.stringify(backup, null, 2);
+      } else {
+        preview.textContent = JSON.stringify(getState(), null, 2);
+      }
+    }
 
-      const modal = document.getElementById('modal');
-      document.getElementById('modalTitle').textContent = '✏️ Editar turno';
-      document.getElementById('modalMessage').textContent = 'Modifica los datos del turno:';
+    function convertirBackupABase(backup) {
+      if (!backup || !backup.entries || typeof backup.entries !== 'object') return null;
 
-      let formHTML = `
-        <label>
-          Nombre del turno
-          <input id="editTipoTurno" type="text" value="${turno.tipo}" placeholder="Ej: Oficina">
-        </label>
-        <label>
-          Hora inicio
-          <input id="editHoraInicio" type="time" value="${turno.inicio}">
-        </label>
-        <label>
-          Hora fin
-          <input id="editHoraFin" type="time" value="${turno.fin}">
-        </label>
-      `;
+      const keys = Object.keys(backup.entries);
+      const turnos = [{ id: 1, tipo: 'Jornada backup', inicio: '09:00', fin: '17:00' }];
+      const calendario = {};
 
-      document.getElementById('modalForm').innerHTML = formHTML;
+      keys.forEach(date => {
+        calendario[date] = { turnoId: 1, horas: Number(backup.entries[date]) || 0 };
+      });
 
-      const btnConfirm = document.getElementById('btnModalConfirm');
-      btnConfirm.textContent = 'Guardar cambios';
-      btnConfirm.style.background = '#4f46e5';
-      btnConfirm.onclick = () => {
-        const tipo = document.getElementById('editTipoTurno').value.trim();
-        const inicio = document.getElementById('editHoraInicio').value;
-        const fin = document.getElementById('editHoraFin').value;
+      return { turnos, calendario };
+    }
 
-        if (!tipo || !inicio || !fin) {
-          alert('Completa todos los campos');
+    async function cargarBackupAutomatico() {
+      try {
+        const response = await fetch('./jornada_backup_2026_octubre.json', { cache: 'no-store' });
+        if (!response.ok) {
+          renderJsonPreview();
           return;
         }
 
-        turno.tipo = tipo;
-        turno.inicio = inicio;
-        turno.fin = fin;
-        saveState(state);
-        renderTurnos();
-        renderCalendario();
-        cerrarModal();
-        mostrarNotificacion('✅ Turno actualizado');
-      };
+        const backup = await response.json();
+        localStorage.setItem(BACKUP_KEY, JSON.stringify(backup));
 
-      modal.classList.add('activo');
-    }
-
-    function eliminarTurno(turnoId) {
-      const state = getState();
-      const turno = state.turnos.find(t => t.id === turnoId);
-
-      const modal = document.getElementById('modal');
-      document.getElementById('modalTitle').textContent = '🗑️ Eliminar turno';
-      document.getElementById('modalMessage').textContent = `¿Eliminar "${turno.tipo}"? Se eliminará de todas las fechas.`;
-      document.getElementById('modalForm').innerHTML = '';
-
-      const btnConfirm = document.getElementById('btnModalConfirm');
-      btnConfirm.textContent = 'Eliminar';
-      btnConfirm.style.background = '#ef4444';
-      btnConfirm.onclick = () => {
-        state.turnos = state.turnos.filter(t => t.id !== turnoId);
-        Object.keys(state.calendario).forEach(fecha => {
-          if (state.calendario[fecha].turnoId === turnoId) {
-            delete state.calendario[fecha];
-          }
-        });
-        saveState(state);
-        renderTurnos();
-        renderCalendario();
-        cerrarModal();
-        mostrarNotificacion('✅ Turno eliminado');
-      };
-
-      modal.classList.add('activo');
-    }
-
-    function calcularEstadisticas() {
-      const state = getState();
-      const hoy = new Date();
-      const primerDiaAno = new Date(hoy.getFullYear(), 0, 1);
-      const ultimoDiaAno = new Date(hoy.getFullYear(), 11, 31);
-
-      const lunesActual = getLunesSemanasActual(hoy);
-      const domingoActual = new Date(lunesActual);
-      domingoActual.setDate(domingoActual.getDate() + 6);
-
-      let horasAnuales = 0;
-      let horasSemanales = 0;
-      let diasTrabajados = 0;
-
-      // Contar horas desde inicio de año hasta hoy
-      for (let d = new Date(primerDiaAno); d <= hoy && d <= ultimoDiaAno; d.setDate(d.getDate() + 1)) {
-        const fechaStr = d.toISOString().split('T')[0];
-        const turnoHoy = state.calendario[fechaStr];
-        if (turnoHoy) {
-          const turno = state.turnos.find(t => t.id == turnoHoy.turnoId);
-          if (turno) {
-            horasAnuales += calcularHoras(turno.inicio, turno.fin);
-            diasTrabajados++;
-          }
+        const base = convertirBackupABase(backup);
+        if (base) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(base));
+          renderCalendario();
+          renderTurnos();
         }
-      }
 
-      // Contar horas de la semana actual
-      for (let d = new Date(lunesActual); d <= domingoActual; d.setDate(d.getDate() + 1)) {
-        const fechaStr = d.toISOString().split('T')[0];
-        const turnoHoy = state.calendario[fechaStr];
-        if (turnoHoy) {
-          const turno = state.turnos.find(t => t.id == turnoHoy.turnoId);
-          if (turno) {
-            horasSemanales += calcularHoras(turno.inicio, turno.fin);
-          }
-        }
+        renderJsonPreview();
+        mostrarNotificacion('✅ Backup cargado automáticamente');
+      } catch (err) {
+        console.warn('No se encontró o no se pudo cargar el backup automatico:', err);
+        renderJsonPreview();
       }
-
-      return {
-        horasAnuales: horasAnuales.toFixed(1),
-        horasSemanales: horasSemanales.toFixed(1),
-        diasTrabajados,
-        porcentajeAnual: ((horasAnuales / LIMITE_ANUAL) * 100).toFixed(1),
-        porcentajeSemanal: ((horasSemanales / LIMITE_SEMANAL) * 100).toFixed(1)
-      };
     }
 
-    function renderStats() {
-      const stats = calcularEstadisticas();
-      const horasAnualesNum = parseFloat(stats.horasAnuales);
-      const horasSemanalesNum = parseFloat(stats.horasSemanales);
-      const porcentajeAnualNum = parseFloat(stats.porcentajeAnual);
-      const porcentajeSemanalNum = parseFloat(stats.porcentajeSemanal);
-
-      let statsHTML = `
-        <h3>📊 Estadísticas</h3>
-        <div class="stats-row">
-          <span>📆 Horas este año</span>
-          <span>${stats.horasAnuales}h / 1764h</span>
-        </div>
-      `;
-
-      statsHTML += `<div class="progress-bar"><div class="progress-fill ${porcentajeAnualNum > 100 ? 'danger' : porcentajeAnualNum > 80 ? 'warning' : ''}" style="width: ${Math.min(porcentajeAnualNum, 100)}%"></div></div>`;
-
-      statsHTML += `
-        <div class="stats-row ${porcentajeAnualNum > 100 ? 'limite' : 'ok'}">
-          <span>Progreso anual</span>
-          <span>${stats.porcentajeAnual}%</span>
-        </div>
-
-        <div class="stats-row">
-          <span>📊 Horas esta semana</span>
-          <span>${stats.horasSemanales}h / 48h</span>
-        </div>
-      `;
-
-      statsHTML += `<div class="progress-bar"><div class="progress-fill ${porcentajeSemanalNum > 100 ? 'danger' : porcentajeSemanalNum > 80 ? 'warning' : ''}" style="width: ${Math.min(porcentajeSemanalNum, 100)}%"></div></div>`;
-
-      statsHTML += `
-        <div class="stats-row ${porcentajeSemanalNum > 100 ? 'limite' : 'ok'}">
-          <span>Progreso semanal</span>
-          <span>${stats.porcentajeSemanal}%</span>
-        </div>
-
-        <div class="stats-row">
-          <span>📅 Días trabajados</span>
-          <span>${stats.diasTrabajados} días</span>
-        </div>
-      `;
-
-      document.getElementById('contenedorStats').innerHTML = statsHTML;
-    }
-
-    function agregarTurno() {
-      const tipo = document.getElementById('tipoTurno').value.trim();
-      const inicio = document.getElementById('horaInicio').value;
-      const fin = document.getElementById('horaFin').value;
-
-      if (!tipo) {
-        alert('Escribe un nombre para el turno');
-        return;
-      }
-
-      if (!inicio || !fin) {
-        alert('Debes indicar la hora de inicio y fin');
-        return;
-      }
-
-      const state = getState();
-      state.turnos.push({ id: Date.now(), tipo, inicio, fin });
-      saveState(state);
-      renderTurnos();
-      document.getElementById('tipoTurno').value = '';
-      document.getElementById('tipoTurno').focus();
-      mostrarNotificacion('✅ Turno añadido');
-    }
-
-    function exportarJSON() {
-      const state = getState();
-      const dataStr = JSON.stringify(state, null, 2);
-      const dataBlob = new Blob([dataStr], { type: 'application/json' });
-      const url = URL.createObjectURL(dataBlob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `mi-cuadrante-${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      mostrarNotificacion('✅ Datos exportados');
-    }
-
-    function manejarArchivo(event) {
-      const file = event.target.files[0];
+    function manejarImportacion(event) {
+      const file = event.target.files?.[0];
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = () => {
         try {
-          const data = JSON.parse(e.target.result);
+          const parsed = JSON.parse(reader.result);
+          localStorage.setItem(BACKUP_KEY, JSON.stringify(parsed));
 
-          if (!data.turnos || !Array.isArray(data.turnos)) {
-            alert('Formato JSON no válido.');
-            return;
+          const base = convertirBackupABase(parsed);
+          if (base) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(base));
+            renderCalendario();
+            renderTurnos();
           }
 
-          mostrarConfirmacionImportar(data);
+          renderJsonPreview();
+          mostrarNotificacion('✅ JSON importado');
         } catch (error) {
-          alert(`Error al leer el archivo: ${error.message}`);
+          alert('El JSON no es válido');
         }
       };
       reader.readAsText(file);
-      document.getElementById('fileInput').value = '';
     }
 
-    function mostrarConfirmacionImportar(data) {
-      const modal = document.getElementById('modal');
-      document.getElementById('modalTitle').textContent = '🔄 Importar datos';
-      document.getElementById('modalMessage').textContent = 
-        `Se importarán ${data.turnos.length} turno(s). Los datos actuales se reemplazarán.`;
-      document.getElementById('modalForm').innerHTML = '';
-      
-      const btnConfirm = document.getElementById('btnModalConfirm');
-      btnConfirm.textContent = 'Importar';
-      btnConfirm.style.background = '#4f46e5';
-      btnConfirm.onclick = () => {
-        saveState(data);
-        renderTurnos();
-        renderStats();
-        renderCalendario();
-        cerrarModal();
-        mostrarNotificacion('✅ Datos importados');
-      };
-      modal.classList.add('activo');
+    function exportarJSON() {
+      const source = JSON.parse(localStorage.getItem(BACKUP_KEY) || JSON.stringify(getState()));
+      const blob = new Blob([JSON.stringify(source, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mi-cuadrante-export.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      mostrarNotificacion('✅ JSON exportado');
     }
 
-    function mostrarConfirmacionLimpiar() {
-      const modal = document.getElementById('modal');
-      document.getElementById('modalTitle').textContent = '⚠️ Limpiar todo';
-      document.getElementById('modalMessage').textContent = 
-        'Se eliminarán todos los turnos y fechas. Esta acción no se puede deshacer.';
-      document.getElementById('modalForm').innerHTML = '';
-      
-      const btnConfirm = document.getElementById('btnModalConfirm');
-      btnConfirm.textContent = 'Limpiar todo';
-      btnConfirm.style.background = '#ef4444';
-      btnConfirm.onclick = () => {
-        saveState({ turnos: [], calendario: {} });
-        renderTurnos();
-        renderStats();
-        renderCalendario();
-        cerrarModal();
-        mostrarNotificacion('✅ Datos eliminados');
-      };
-      modal.classList.add('activo');
-    }
-
-    function cerrarModal() {
-      document.getElementById('modal').classList.remove('activo');
-      document.getElementById('modalForm').innerHTML = '';
-    }
-
-    function actualizarPreview() {
-      const state = getState();
-      document.getElementById('jsonPreview').textContent = JSON.stringify(state, null, 2);
-    }
-
-    function mostrarVista(id) {
-      document.getElementById('calendario').classList.add('oculto');
-      document.getElementById('turnos').classList.add('oculto');
-      document.getElementById('estadisticas').classList.add('oculto');
-      document.getElementById('datos').classList.add('oculto');
-
-      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('activo'));
-      document.getElementById(id).classList.remove('oculto');
-      
-      const textos = { calendario: 'Calendario', turnos: 'Turnos', estadisticas: 'Estadísticas', datos: 'Datos' };
-      const activeButton = [...document.querySelectorAll('nav button')].find(btn => 
-        btn.textContent.includes(textos[id])
-      );
-      if (activeButton) activeButton.classList.add('activo');
-    }
-
-    function semanaAnterior() {
-      fechaSeleccionada.setDate(fechaSeleccionada.getDate() - 7);
+    function limpiarTodo() {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(BACKUP_KEY);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultData));
       renderCalendario();
+      renderTurnos();
+      renderJsonPreview();
+      mostrarNotificacion('✅ Datos limpiados');
     }
 
-    function semanaSiguiente() {
-      fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 7);
-      renderCalendario();
-    }
-
-    function semanaActual() {
-      fechaSeleccionada = new Date();
-      renderCalendario();
-    }
-
-    function mostrarNotificacion(mensaje) {
-      const notif = document.createElement('div');
-      notif.className = 'notification';
-      notif.textContent = mensaje;
-      document.body.appendChild(notif);
-      setTimeout(() => notif.remove(), 3000);
-    }
-
-    document.getElementById('btnAgregarTurno').addEventListener('click', agregarTurno);
-    document.getElementById('tipoTurno').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') agregarTurno();
+    document.querySelectorAll('nav button').forEach(button => {
+      button.addEventListener('click', () => mostrarVista(button.dataset.view));
     });
 
-    // INICIALIZAR
-    renderCalendario();
-    renderTurnos();
-    renderStats();
-    actualizarPreview();
-    
-    // Exportar automáticamente al cargar
-    mostrarNotificacion('📥 Exportando datos automáticamente...');
-    setTimeout(() => exportarAutomaticamente(), 1000);
+    document.getElementById('btnAgregarTurno').addEventListener('click', () => {
+      const state = getState();
+      const tipo = document.getElementById('tipoTurno').value.trim() || 'Jornada';
+      const inicio = document.getElementById('horaInicio').value || '09:00';
+      const fin = document.getElementById('horaFin').value || '17:00';
+      const id = Date.now();
+      state.turnos = [...(state.turnos || []), { id, tipo, inicio, fin }];
+      saveState(state);
+      mostrarNotificacion('✅ Turno añadido');
+    });
+
+    document.getElementById('btnExportar').addEventListener('click', exportarJSON);
+    document.getElementById('btnImportar').addEventListener('click', () => document.getElementById('fileInput').click());
+    document.getElementById('fileInput').addEventListener('change', manejarImportacion);
+    document.getElementById('btnLimpiar').addEventListener('click', limpiarTodo);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const existing = getState();
+      renderCalendario();
+      renderTurnos();
+      renderJsonPreview();
+      cargarBackupAutomatico();
+      mostrarVista('calendario');
+      if (!existing || !existing.turnos || existing.turnos.length === 0) {
+        saveState(defaultData);
+      }
+    });
   </script>
 </body>
 </html>
