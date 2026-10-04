@@ -20,7 +20,7 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
@@ -134,9 +134,123 @@
       background: #4338ca;
     }
 
+    /* CALENDARIO */
+    .calendario-container {
+      margin: 20px 0;
+    }
+
+    .calendario-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+
+    .calendario-header h2 {
+      color: #1f2937;
+      font-size: 1.3rem;
+    }
+
+    .calendario-header button {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .calendario-nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .calendario-nav button {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .day-card {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px;
+      min-height: 140px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .day-card:hover {
+      border-color: #4f46e5;
+      box-shadow: 0 8px 16px rgba(79,70,229,0.1);
+    }
+
+    .day-card.hoy {
+      border-color: #10b981;
+      background: #f0fdf4;
+    }
+
+    .day-card.proximo {
+      border-color: #fbbf24;
+    }
+
+    .day-card.activo {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: white;
+      border-color: #4f46e5;
+    }
+
+    .day-card h4 {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+
+    .day-card.activo h4 {
+      opacity: 1;
+    }
+
+    .day-fecha {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .day-turno {
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .day-turno strong {
+      display: block;
+      margin-top: 6px;
+    }
+
+    .day-turno .horario {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+
+    .day-card.vacio {
+      opacity: 0.5;
+      cursor: pointer;
+    }
+
+    /* TARJETAS */
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
       margin-top: 18px;
     }
@@ -151,7 +265,7 @@
 
     .card h3 {
       font-size: 1.2rem;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .card p {
@@ -163,6 +277,13 @@
       font-size: 1.05rem;
     }
 
+    .card .buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
     .card button {
       background: rgba(255,255,255,0.2);
       color: white;
@@ -171,8 +292,9 @@
       padding: 8px 12px;
       font-size: 0.8rem;
       cursor: pointer;
-      margin-top: 10px;
       transition: background 0.2s;
+      flex: 1;
+      min-width: 80px;
     }
 
     .card button:hover {
@@ -189,21 +311,58 @@
     .stats-card h3 {
       color: #4f46e5;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 12px;
     }
 
-    .stats-card p {
+    .stats-row {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       border-bottom: 1px solid #e5e7eb;
-      padding: 10px 0;
+      padding: 12px 0;
       margin: 0;
     }
 
-    .stats-card p:last-child {
+    .stats-row:last-child {
       border-bottom: none;
-      margin-top: 8px;
-      font-size: 1.08rem;
+    }
+
+    .stats-row span:first-child {
+      font-weight: 600;
+    }
+
+    .stats-row.limite {
+      color: #ef4444;
+      font-weight: 700;
+    }
+
+    .stats-row.ok {
+      color: #10b981;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      margin: 8px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+      transition: width 0.3s ease;
+    }
+
+    .progress-fill.warning {
+      background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+    }
+
+    .progress-fill.danger {
+      background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
     }
 
     .empty {
@@ -269,6 +428,7 @@
       z-index: 1000;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
 
     .modal.activo {
@@ -279,9 +439,11 @@
       background: white;
       border-radius: 18px;
       padding: 24px;
-      max-width: 500px;
-      width: 90%;
+      max-width: 600px;
+      width: 100%;
       box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal-content h2 {
@@ -294,6 +456,22 @@
       color: #6b7280;
     }
 
+    .modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .modal-form label {
+      gap: 6px;
+    }
+
+    .modal-form input,
+    .modal-form select {
+      width: 100%;
+    }
+
     .modal-buttons {
       display: flex;
       gap: 12px;
@@ -304,7 +482,7 @@
       flex: 1;
       border: none;
       border-radius: 10px;
-      padding: 10px;
+      padding: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: transform 0.2s;
@@ -324,6 +502,49 @@
       color: white;
     }
 
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      z-index: 2000;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .week-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+
+      .day-card {
+        min-height: 120px;
+        padding: 10px;
+      }
+
+      .day-fecha {
+        font-size: 1rem;
+      }
+
+      .day-turno {
+        font-size: 0.8rem;
+      }
+    }
+
     @media (max-width: 600px) {
       nav {
         flex-direction: column;
@@ -340,6 +561,21 @@
       .form-grid {
         grid-template-columns: 1fr;
       }
+
+      .week-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      }
+
+      .day-card {
+        min-height: 100px;
+        padding: 8px;
+        font-size: 0.85rem;
+      }
+
+      .calendario-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
     }
   </style>
 </head>
@@ -350,13 +586,32 @@
     </header>
 
     <nav>
-      <button class="activo" onclick="mostrarVista('turnos')">📅 Turnos</button>
+      <button class="activo" onclick="mostrarVista('calendario')">📆 Calendario</button>
+      <button onclick="mostrarVista('turnos')">📋 Turnos</button>
       <button onclick="mostrarVista('estadisticas')">📊 Estadísticas</button>
       <button class="util" onclick="mostrarVista('datos')">💾 Datos</button>
     </nav>
 
-    <section id="turnos">
+    <section id="calendario">
+      <div class="calendario-container">
+        <div class="calendario-header">
+          <div>
+            <h2 id="mesAnio"></h2>
+            <small id="semanaInfo" style="color: #6b7280;"></small>
+          </div>
+          <div class="calendario-nav">
+            <button onclick="semanaAnterior()">◀ Anterior</button>
+            <button onclick="semanaActual()" style="background: #10b981;">Hoy</button>
+            <button onclick="semanaSiguiente()">Siguiente ▶</button>
+          </div>
+        </div>
+        <div class="week-grid" id="weekGrid"></div>
+      </div>
+    </section>
+
+    <section id="turnos" class="oculto">
       <div class="panel">
+        <h2 style="margin-bottom: 16px; color: #1f2937;">➕ Añadir nuevo turno</h2>
         <div class="form-grid">
           <label>
             Nombre del turno
@@ -374,11 +629,15 @@
         </div>
       </div>
 
+      <h2 style="margin: 20px 0 16px; color: #1f2937;">📋 Mis Turnos</h2>
       <div id="listaTurnos" class="cards"></div>
     </section>
 
     <section id="estadisticas" class="oculto">
-      <div id="contenedorStats"></div>
+      <h2 style="margin-bottom: 20px; color: #1f2937;">📊 Estadísticas</h2>
+      <div class="cards">
+        <div id="contenedorStats" class="stats-card"></div>
+      </div>
     </section>
 
     <section id="datos" class="oculto">
@@ -406,6 +665,7 @@
     <div class="modal-content">
       <h2 id="modalTitle">Confirmar</h2>
       <p id="modalMessage"></p>
+      <div id="modalForm" class="modal-form"></div>
       <div class="modal-buttons">
         <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
         <button class="btn-confirm" id="btnModalConfirm">Confirmar</button>
@@ -414,13 +674,21 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'mi-cuadrante-web-state';
+    const STORAGE_KEY = 'mi-cuadrante-estado';
+    const dias = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'];
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    
+    const LIMITE_ANUAL = 1764; // horas
+    const LIMITE_SEMANAL = 48; // horas
+
+    let fechaSeleccionada = new Date();
 
     const defaultData = {
       turnos: [
-        { tipo: 'Teletrabajo', inicio: '15:00', fin: '23:00' },
-        { tipo: 'Oficina', inicio: '09:00', fin: '17:00' }
-      ]
+        { id: Date.now(), tipo: 'Teletrabajo', inicio: '15:00', fin: '23:00' },
+        { id: Date.now() + 1, tipo: 'Oficina', inicio: '09:00', fin: '17:00' }
+      ],
+      calendario: {}
     };
 
     function getState() {
@@ -441,11 +709,122 @@
     function saveState(state) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       actualizarPreview();
+      renderCalendario();
+      renderStats();
+    }
+
+    function exportarAutomaticamente() {
+      const state = getState();
+      const dataStr = JSON.stringify(state, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `mi-cuadrante-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      mostrarNotificacion('✅ Datos exportados automáticamente');
     }
 
     function formatearHorario(inicio, fin) {
       if (!inicio || !fin) return 'Sin horario';
       return `${inicio} - ${fin}`;
+    }
+
+    function calcularHoras(inicio, fin) {
+      if (!inicio || !fin) return 0;
+      const [h1, m1] = inicio.split(':').map(Number);
+      const [h2, m2] = fin.split(':').map(Number);
+      const inicioMin = h1 * 60 + m1;
+      const finMin = h2 * 60 + m2;
+      const diff = Math.max(0, finMin - inicioMin);
+      return diff / 60;
+    }
+
+    function getLunesSemanasActual(fecha) {
+      const d = new Date(fecha);
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      return new Date(d.setDate(diff));
+    }
+
+    function renderCalendario() {
+      const lunes = getLunesSemanasActual(fechaSeleccionada);
+      const state = getState();
+      const gridHTML = [];
+
+      for (let i = 0; i < 7; i++) {
+        const fecha = new Date(lunes);
+        fecha.setDate(fecha.getDate() + i);
+        const fechaStr = fecha.toISOString().split('T')[0];
+        const hoy = new Date().toISOString().split('T')[0];
+        const turnoHoy = state.calendario[fechaStr];
+
+        let cardHTML = `<div class="day-card ${turnoHoy ? 'activo' : 'vacio'} ${fechaStr === hoy ? 'hoy' : ''}" onclick="mostrarSelectorTurno('${fechaStr}')">`;
+        cardHTML += `<h4>${dias[i]}</h4>`;
+        cardHTML += `<div class="day-fecha">${fecha.getDate()}</div>`;
+
+        if (turnoHoy) {
+          const turno = state.turnos.find(t => t.id == turnoHoy.turnoId);
+          if (turno) {
+            cardHTML += `<div class="day-turno"><strong>${turno.tipo}</strong><div class="horario">${formatearHorario(turno.inicio, turno.fin)}</div></div>`;
+          }
+        } else {
+          cardHTML += `<div style="font-size: 0.8rem; opacity: 0.6;">Añadir turno</div>`;
+        }
+
+        cardHTML += `</div>`;
+        gridHTML.push(cardHTML);
+      }
+
+      document.getElementById('weekGrid').innerHTML = gridHTML.join('');
+
+      const mesInfo = `${meses[lunes.getMonth()]} ${lunes.getFullYear()}`;
+      const semanaInfo = `Semana del ${lunes.getDate()} al ${new Date(lunes.getTime() + 6 * 24 * 60 * 60 * 1000).getDate()}`;
+      document.getElementById('mesAnio').textContent = mesInfo;
+      document.getElementById('semanaInfo').textContent = semanaInfo;
+    }
+
+    function mostrarSelectorTurno(fechaStr) {
+      const state = getState();
+      const turnoActual = state.calendario[fechaStr];
+      const turnoActualId = turnoActual ? turnoActual.turnoId : null;
+
+      const modal = document.getElementById('modal');
+      const fecha = new Date(fechaStr + 'T00:00:00');
+      const diaSemana = dias[fecha.getDay() === 0 ? 6 : fecha.getDay() - 1];
+
+      document.getElementById('modalTitle').textContent = `📅 ${diaSemana} ${fecha.getDate()} de ${meses[fecha.getMonth()]}`;
+      document.getElementById('modalMessage').textContent = 'Selecciona un turno o elimina el actual:';
+
+      let formHTML = '<div style="display: grid; gap: 12px;">';
+      formHTML += '<select id="turnoSelect" style="border: 1px solid #d1d5db; border-radius: 10px; padding: 12px; font-size: 1rem;">';
+      formHTML += '<option value="">-- Seleccionar turno --</option>';
+      state.turnos.forEach(turno => {
+        const selected = turno.id == turnoActualId ? 'selected' : '';
+        formHTML += `<option value="${turno.id}" ${selected}>${turno.tipo} (${formatearHorario(turno.inicio, turno.fin)})</option>`;
+      });
+      formHTML += '</select></div>';
+
+      document.getElementById('modalForm').innerHTML = formHTML;
+
+      const btnConfirm = document.getElementById('btnModalConfirm');
+      btnConfirm.textContent = 'Guardar';
+      btnConfirm.style.background = '#4f46e5';
+      btnConfirm.onclick = () => {
+        const turnoId = document.getElementById('turnoSelect').value;
+        if (turnoId) {
+          state.calendario[fechaStr] = { turnoId: Number(turnoId) };
+        } else {
+          delete state.calendario[fechaStr];
+        }
+        saveState(state);
+        cerrarModal();
+      };
+
+      modal.classList.add('activo');
     }
 
     function renderTurnos() {
@@ -457,60 +836,192 @@
         return;
       }
 
-      lista.innerHTML = state.turnos.map((turno, index) => `
+      lista.innerHTML = state.turnos.map((turno) => `
         <div class="card">
           <h3>🏷️ ${turno.tipo}</h3>
           <p><strong>Horario:</strong> ${formatearHorario(turno.inicio, turno.fin)}</p>
-          <button data-index="${index}" onclick="eliminarTurno(${index})">Eliminar</button>
+          <p><strong>Duración:</strong> ${calcularHoras(turno.inicio, turno.fin).toFixed(1)}h</p>
+          <div class="buttons">
+            <button onclick="mostrarEditarTurno(${turno.id})">Editar</button>
+            <button onclick="eliminarTurno(${turno.id})">Eliminar</button>
+          </div>
         </div>
       `).join('');
     }
 
-    function eliminarTurno(index) {
+    function mostrarEditarTurno(turnoId) {
       const state = getState();
-      state.turnos.splice(index, 1);
-      saveState(state);
-      renderTurnos();
-      renderStats();
+      const turno = state.turnos.find(t => t.id === turnoId);
+      if (!turno) return;
+
+      const modal = document.getElementById('modal');
+      document.getElementById('modalTitle').textContent = '✏️ Editar turno';
+      document.getElementById('modalMessage').textContent = 'Modifica los datos del turno:';
+
+      let formHTML = `
+        <label>
+          Nombre del turno
+          <input id="editTipoTurno" type="text" value="${turno.tipo}" placeholder="Ej: Oficina">
+        </label>
+        <label>
+          Hora inicio
+          <input id="editHoraInicio" type="time" value="${turno.inicio}">
+        </label>
+        <label>
+          Hora fin
+          <input id="editHoraFin" type="time" value="${turno.fin}">
+        </label>
+      `;
+
+      document.getElementById('modalForm').innerHTML = formHTML;
+
+      const btnConfirm = document.getElementById('btnModalConfirm');
+      btnConfirm.textContent = 'Guardar cambios';
+      btnConfirm.style.background = '#4f46e5';
+      btnConfirm.onclick = () => {
+        const tipo = document.getElementById('editTipoTurno').value.trim();
+        const inicio = document.getElementById('editHoraInicio').value;
+        const fin = document.getElementById('editHoraFin').value;
+
+        if (!tipo || !inicio || !fin) {
+          alert('Completa todos los campos');
+          return;
+        }
+
+        turno.tipo = tipo;
+        turno.inicio = inicio;
+        turno.fin = fin;
+        saveState(state);
+        renderTurnos();
+        renderCalendario();
+        cerrarModal();
+        mostrarNotificacion('✅ Turno actualizado');
+      };
+
+      modal.classList.add('activo');
+    }
+
+    function eliminarTurno(turnoId) {
+      const state = getState();
+      const turno = state.turnos.find(t => t.id === turnoId);
+
+      const modal = document.getElementById('modal');
+      document.getElementById('modalTitle').textContent = '🗑️ Eliminar turno';
+      document.getElementById('modalMessage').textContent = `¿Eliminar "${turno.tipo}"? Se eliminará de todas las fechas.`;
+      document.getElementById('modalForm').innerHTML = '';
+
+      const btnConfirm = document.getElementById('btnModalConfirm');
+      btnConfirm.textContent = 'Eliminar';
+      btnConfirm.style.background = '#ef4444';
+      btnConfirm.onclick = () => {
+        state.turnos = state.turnos.filter(t => t.id !== turnoId);
+        Object.keys(state.calendario).forEach(fecha => {
+          if (state.calendario[fecha].turnoId === turnoId) {
+            delete state.calendario[fecha];
+          }
+        });
+        saveState(state);
+        renderTurnos();
+        renderCalendario();
+        cerrarModal();
+        mostrarNotificacion('✅ Turno eliminado');
+      };
+
+      modal.classList.add('activo');
     }
 
     function calcularEstadisticas() {
       const state = getState();
-      const turnos = state.turnos || [];
+      const hoy = new Date();
+      const primerDiaAno = new Date(hoy.getFullYear(), 0, 1);
+      const ultimoDiaAno = new Date(hoy.getFullYear(), 11, 31);
 
-      const total = turnos.length;
-      const teletrabajo = turnos.filter(t => /teletrabajo|home|remote/i.test(t.tipo)).length;
-      const oficina = turnos.filter(t => /oficina|presencial|office/i.test(t.tipo)).length;
-      const libres = Math.max(0, 30 - total);
+      const lunesActual = getLunesSemanasActual(hoy);
+      const domingoActual = new Date(lunesActual);
+      domingoActual.setDate(domingoActual.getDate() + 6);
+
+      let horasAnuales = 0;
+      let horasSemanales = 0;
+      let diasTrabajados = 0;
+
+      // Contar horas desde inicio de año hasta hoy
+      for (let d = new Date(primerDiaAno); d <= hoy && d <= ultimoDiaAno; d.setDate(d.getDate() + 1)) {
+        const fechaStr = d.toISOString().split('T')[0];
+        const turnoHoy = state.calendario[fechaStr];
+        if (turnoHoy) {
+          const turno = state.turnos.find(t => t.id == turnoHoy.turnoId);
+          if (turno) {
+            horasAnuales += calcularHoras(turno.inicio, turno.fin);
+            diasTrabajados++;
+          }
+        }
+      }
+
+      // Contar horas de la semana actual
+      for (let d = new Date(lunesActual); d <= domingoActual; d.setDate(d.getDate() + 1)) {
+        const fechaStr = d.toISOString().split('T')[0];
+        const turnoHoy = state.calendario[fechaStr];
+        if (turnoHoy) {
+          const turno = state.turnos.find(t => t.id == turnoHoy.turnoId);
+          if (turno) {
+            horasSemanales += calcularHoras(turno.inicio, turno.fin);
+          }
+        }
+      }
 
       return {
-        total,
-        teletrabajo,
-        oficina,
-        libres,
-        horas: turnos.reduce((acc, turno) => {
-          if (!turno.inicio || !turno.fin) return acc;
-          const [h1, m1] = turno.inicio.split(':').map(Number);
-          const [h2, m2] = turno.fin.split(':').map(Number);
-          const inicioMin = h1 * 60 + m1;
-          const finMin = h2 * 60 + m2;
-          const diff = Math.max(0, finMin - inicioMin);
-          return acc + (diff / 60);
-        }, 0)
+        horasAnuales: horasAnuales.toFixed(1),
+        horasSemanales: horasSemanales.toFixed(1),
+        diasTrabajados,
+        porcentajeAnual: ((horasAnuales / LIMITE_ANUAL) * 100).toFixed(1),
+        porcentajeSemanal: ((horasSemanales / LIMITE_SEMANAL) * 100).toFixed(1)
       };
     }
 
     function renderStats() {
       const stats = calcularEstadisticas();
-      document.getElementById('contenedorStats').innerHTML = `
-        <div class="card stats-card">
-          <h3>📊 Estadísticas</h3>
-          <p><span>🏠 Teletrabajo</span> <span>${stats.teletrabajo}</span></p>
-          <p><span>🏢 Oficina</span> <span>${stats.oficina}</span></p>
-          <p><span>👍 Libres</span> <span>${stats.libres}</span></p>
-          <p><span>🕒 Total horas</span> <span>${stats.horas.toFixed(1)}h</span></p>
+      const horasAnualesNum = parseFloat(stats.horasAnuales);
+      const horasSemanalesNum = parseFloat(stats.horasSemanales);
+      const porcentajeAnualNum = parseFloat(stats.porcentajeAnual);
+      const porcentajeSemanalNum = parseFloat(stats.porcentajeSemanal);
+
+      let statsHTML = `
+        <h3>📊 Estadísticas</h3>
+        <div class="stats-row">
+          <span>📆 Horas este año</span>
+          <span>${stats.horasAnuales}h / 1764h</span>
         </div>
       `;
+
+      statsHTML += `<div class="progress-bar"><div class="progress-fill ${porcentajeAnualNum > 100 ? 'danger' : porcentajeAnualNum > 80 ? 'warning' : ''}" style="width: ${Math.min(porcentajeAnualNum, 100)}%"></div></div>`;
+
+      statsHTML += `
+        <div class="stats-row ${porcentajeAnualNum > 100 ? 'limite' : 'ok'}">
+          <span>Progreso anual</span>
+          <span>${stats.porcentajeAnual}%</span>
+        </div>
+
+        <div class="stats-row">
+          <span>📊 Horas esta semana</span>
+          <span>${stats.horasSemanales}h / 48h</span>
+        </div>
+      `;
+
+      statsHTML += `<div class="progress-bar"><div class="progress-fill ${porcentajeSemanalNum > 100 ? 'danger' : porcentajeSemanalNum > 80 ? 'warning' : ''}" style="width: ${Math.min(porcentajeSemanalNum, 100)}%"></div></div>`;
+
+      statsHTML += `
+        <div class="stats-row ${porcentajeSemanalNum > 100 ? 'limite' : 'ok'}">
+          <span>Progreso semanal</span>
+          <span>${stats.porcentajeSemanal}%</span>
+        </div>
+
+        <div class="stats-row">
+          <span>📅 Días trabajados</span>
+          <span>${stats.diasTrabajados} días</span>
+        </div>
+      `;
+
+      document.getElementById('contenedorStats').innerHTML = statsHTML;
     }
 
     function agregarTurno() {
@@ -529,12 +1040,12 @@
       }
 
       const state = getState();
-      state.turnos.push({ tipo, inicio, fin });
+      state.turnos.push({ id: Date.now(), tipo, inicio, fin });
       saveState(state);
       renderTurnos();
-      renderStats();
       document.getElementById('tipoTurno').value = '';
       document.getElementById('tipoTurno').focus();
+      mostrarNotificacion('✅ Turno añadido');
     }
 
     function exportarJSON() {
@@ -549,6 +1060,7 @@
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+      mostrarNotificacion('✅ Datos exportados');
     }
 
     function manejarArchivo(event) {
@@ -561,7 +1073,7 @@
           const data = JSON.parse(e.target.result);
 
           if (!data.turnos || !Array.isArray(data.turnos)) {
-            alert('Formato JSON no válido. Debe contener un array de "turnos".');
+            alert('Formato JSON no válido.');
             return;
           }
 
@@ -578,17 +1090,19 @@
       const modal = document.getElementById('modal');
       document.getElementById('modalTitle').textContent = '🔄 Importar datos';
       document.getElementById('modalMessage').textContent = 
-        `Se importarán ${data.turnos.length} turno(s). ¿Los datos actuales se reemplazarán.`;
+        `Se importarán ${data.turnos.length} turno(s). Los datos actuales se reemplazarán.`;
+      document.getElementById('modalForm').innerHTML = '';
       
       const btnConfirm = document.getElementById('btnModalConfirm');
       btnConfirm.textContent = 'Importar';
+      btnConfirm.style.background = '#4f46e5';
       btnConfirm.onclick = () => {
         saveState(data);
         renderTurnos();
         renderStats();
+        renderCalendario();
         cerrarModal();
-        mostrarVista('turnos');
-        alert('✅ Datos importados correctamente');
+        mostrarNotificacion('✅ Datos importados');
       };
       modal.classList.add('activo');
     }
@@ -597,23 +1111,26 @@
       const modal = document.getElementById('modal');
       document.getElementById('modalTitle').textContent = '⚠️ Limpiar todo';
       document.getElementById('modalMessage').textContent = 
-        'Se eliminarán todos los turnos. Esta acción no se puede deshacer.';
+        'Se eliminarán todos los turnos y fechas. Esta acción no se puede deshacer.';
+      document.getElementById('modalForm').innerHTML = '';
       
       const btnConfirm = document.getElementById('btnModalConfirm');
       btnConfirm.textContent = 'Limpiar todo';
       btnConfirm.style.background = '#ef4444';
       btnConfirm.onclick = () => {
-        saveState({ turnos: [] });
+        saveState({ turnos: [], calendario: {} });
         renderTurnos();
         renderStats();
+        renderCalendario();
         cerrarModal();
-        alert('✅ Datos eliminados');
+        mostrarNotificacion('✅ Datos eliminados');
       };
       modal.classList.add('activo');
     }
 
     function cerrarModal() {
       document.getElementById('modal').classList.remove('activo');
+      document.getElementById('modalForm').innerHTML = '';
     }
 
     function actualizarPreview() {
@@ -622,6 +1139,7 @@
     }
 
     function mostrarVista(id) {
+      document.getElementById('calendario').classList.add('oculto');
       document.getElementById('turnos').classList.add('oculto');
       document.getElementById('estadisticas').classList.add('oculto');
       document.getElementById('datos').classList.add('oculto');
@@ -629,11 +1147,34 @@
       document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('activo'));
       document.getElementById(id).classList.remove('oculto');
       
-      const textos = { turnos: 'Turnos', estadisticas: 'Estadísticas', datos: 'Datos' };
+      const textos = { calendario: 'Calendario', turnos: 'Turnos', estadisticas: 'Estadísticas', datos: 'Datos' };
       const activeButton = [...document.querySelectorAll('nav button')].find(btn => 
         btn.textContent.includes(textos[id])
       );
       if (activeButton) activeButton.classList.add('activo');
+    }
+
+    function semanaAnterior() {
+      fechaSeleccionada.setDate(fechaSeleccionada.getDate() - 7);
+      renderCalendario();
+    }
+
+    function semanaSiguiente() {
+      fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 7);
+      renderCalendario();
+    }
+
+    function semanaActual() {
+      fechaSeleccionada = new Date();
+      renderCalendario();
+    }
+
+    function mostrarNotificacion(mensaje) {
+      const notif = document.createElement('div');
+      notif.className = 'notification';
+      notif.textContent = mensaje;
+      document.body.appendChild(notif);
+      setTimeout(() => notif.remove(), 3000);
     }
 
     document.getElementById('btnAgregarTurno').addEventListener('click', agregarTurno);
@@ -641,9 +1182,15 @@
       if (e.key === 'Enter') agregarTurno();
     });
 
+    // INICIALIZAR
+    renderCalendario();
     renderTurnos();
     renderStats();
     actualizarPreview();
+    
+    // Exportar automáticamente al cargar
+    mostrarNotificacion('📥 Exportando datos automáticamente...');
+    setTimeout(() => exportarAutomaticamente(), 1000);
   </script>
 </body>
 </html>
