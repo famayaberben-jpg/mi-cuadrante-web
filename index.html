@@ -42,10 +42,10 @@
       display: flex;
       gap: 12px;
       margin-bottom: 18px;
+      flex-wrap: wrap;
     }
 
     nav button {
-      flex: 1;
       border: none;
       border-radius: 12px;
       padding: 14px 20px;
@@ -56,6 +56,8 @@
       cursor: pointer;
       box-shadow: 0 8px 18px rgba(0,0,0,0.08);
       transition: transform 0.2s ease, background 0.2s ease;
+      flex: 1;
+      min-width: 120px;
     }
 
     nav button:hover {
@@ -65,6 +67,16 @@
     nav button.activo {
       background: #4f46e5;
       color: white;
+    }
+
+    nav button.util {
+      background: rgba(255,165,0,0.9);
+      color: white;
+      flex: 0 1 auto;
+    }
+
+    nav button.util:hover {
+      background: rgba(255,140,0,1);
     }
 
     section {
@@ -118,6 +130,10 @@
       cursor: pointer;
     }
 
+    button.primary:hover {
+      background: #4338ca;
+    }
+
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -145,6 +161,22 @@
 
     .card strong {
       font-size: 1.05rem;
+    }
+
+    .card button {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+
+    .card button:hover {
+      background: rgba(255,255,255,0.3);
     }
 
     .stats-card {
@@ -181,13 +213,132 @@
       font-style: italic;
     }
 
+    .json-panel {
+      background: #1f2937;
+      color: #10b981;
+      border-radius: 14px;
+      padding: 16px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      margin: 16px 0;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #374151;
+    }
+
+    .json-panel pre {
+      margin: 0;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button-group button {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .success {
+      background: #10b981;
+      border: 1px solid #059669;
+    }
+
+    .danger {
+      background: #ef4444;
+      border: 1px solid #dc2626;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.activo {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 18px;
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .modal-content h2 {
+      margin-bottom: 16px;
+      color: #1f2937;
+    }
+
+    .modal-content p {
+      margin: 12px 0;
+      color: #6b7280;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .modal-buttons button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-cancel {
+      background: #e5e7eb;
+      color: #1f2937;
+    }
+
+    .btn-confirm {
+      background: #4f46e5;
+      color: white;
+    }
+
     @media (max-width: 600px) {
       nav {
         flex-direction: column;
       }
 
+      nav button {
+        flex: 1;
+      }
+
       section {
         padding: 18px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -201,6 +352,7 @@
     <nav>
       <button class="activo" onclick="mostrarVista('turnos')">📅 Turnos</button>
       <button onclick="mostrarVista('estadisticas')">📊 Estadísticas</button>
+      <button class="util" onclick="mostrarVista('datos')">💾 Datos</button>
     </nav>
 
     <section id="turnos">
@@ -228,6 +380,37 @@
     <section id="estadisticas" class="oculto">
       <div id="contenedorStats"></div>
     </section>
+
+    <section id="datos" class="oculto">
+      <div class="panel">
+        <h2 style="margin-bottom: 16px; color: #1f2937;">💾 Gestión de Datos</h2>
+        <p style="margin-bottom: 16px; color: #6b7280;">Exporta e importa tus turnos en formato JSON. Puedes guardar una copia de seguridad o compartir tus datos.</p>
+        
+        <div class="button-group">
+          <button class="primary success" onclick="exportarJSON()">📥 Exportar JSON</button>
+          <button class="primary" onclick="document.getElementById('fileInput').click()">📤 Importar JSON</button>
+          <button class="primary danger" onclick="mostrarConfirmacionLimpiar()">🗑️ Limpiar todo</button>
+        </div>
+
+        <input type="file" id="fileInput" accept=".json" onchange="manejarArchivo(event)">
+
+        <h3 style="margin-top: 24px; margin-bottom: 12px; color: #1f2937;">Vista previa JSON:</h3>
+        <div class="json-panel">
+          <pre id="jsonPreview"></pre>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modalTitle">Confirmar</h2>
+      <p id="modalMessage"></p>
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+        <button class="btn-confirm" id="btnModalConfirm">Confirmar</button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -257,6 +440,7 @@
 
     function saveState(state) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      actualizarPreview();
     }
 
     function formatearHorario(inicio, fin) {
@@ -277,20 +461,17 @@
         <div class="card">
           <h3>🏷️ ${turno.tipo}</h3>
           <p><strong>Horario:</strong> ${formatearHorario(turno.inicio, turno.fin)}</p>
-          <p><strong>Acción:</strong> <button class="primary" data-index="${index}" style="margin-top:10px; padding:8px 12px; font-size:0.8rem;">Eliminar</button></p>
+          <button data-index="${index}" onclick="eliminarTurno(${index})">Eliminar</button>
         </div>
       `).join('');
+    }
 
-      document.querySelectorAll('[data-index]').forEach(button => {
-        button.addEventListener('click', () => {
-          const index = Number(button.dataset.index);
-          const state = getState();
-          state.turnos.splice(index, 1);
-          saveState(state);
-          renderTurnos();
-          renderStats();
-        });
-      });
+    function eliminarTurno(index) {
+      const state = getState();
+      state.turnos.splice(index, 1);
+      saveState(state);
+      renderTurnos();
+      renderStats();
     }
 
     function calcularEstadisticas() {
@@ -356,20 +537,113 @@
       document.getElementById('tipoTurno').focus();
     }
 
+    function exportarJSON() {
+      const state = getState();
+      const dataStr = JSON.stringify(state, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `mi-cuadrante-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    function manejarArchivo(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+
+          if (!data.turnos || !Array.isArray(data.turnos)) {
+            alert('Formato JSON no válido. Debe contener un array de "turnos".');
+            return;
+          }
+
+          mostrarConfirmacionImportar(data);
+        } catch (error) {
+          alert(`Error al leer el archivo: ${error.message}`);
+        }
+      };
+      reader.readAsText(file);
+      document.getElementById('fileInput').value = '';
+    }
+
+    function mostrarConfirmacionImportar(data) {
+      const modal = document.getElementById('modal');
+      document.getElementById('modalTitle').textContent = '🔄 Importar datos';
+      document.getElementById('modalMessage').textContent = 
+        `Se importarán ${data.turnos.length} turno(s). ¿Los datos actuales se reemplazarán.`;
+      
+      const btnConfirm = document.getElementById('btnModalConfirm');
+      btnConfirm.textContent = 'Importar';
+      btnConfirm.onclick = () => {
+        saveState(data);
+        renderTurnos();
+        renderStats();
+        cerrarModal();
+        mostrarVista('turnos');
+        alert('✅ Datos importados correctamente');
+      };
+      modal.classList.add('activo');
+    }
+
+    function mostrarConfirmacionLimpiar() {
+      const modal = document.getElementById('modal');
+      document.getElementById('modalTitle').textContent = '⚠️ Limpiar todo';
+      document.getElementById('modalMessage').textContent = 
+        'Se eliminarán todos los turnos. Esta acción no se puede deshacer.';
+      
+      const btnConfirm = document.getElementById('btnModalConfirm');
+      btnConfirm.textContent = 'Limpiar todo';
+      btnConfirm.style.background = '#ef4444';
+      btnConfirm.onclick = () => {
+        saveState({ turnos: [] });
+        renderTurnos();
+        renderStats();
+        cerrarModal();
+        alert('✅ Datos eliminados');
+      };
+      modal.classList.add('activo');
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal').classList.remove('activo');
+    }
+
+    function actualizarPreview() {
+      const state = getState();
+      document.getElementById('jsonPreview').textContent = JSON.stringify(state, null, 2);
+    }
+
     function mostrarVista(id) {
       document.getElementById('turnos').classList.add('oculto');
       document.getElementById('estadisticas').classList.add('oculto');
+      document.getElementById('datos').classList.add('oculto');
 
       document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('activo'));
       document.getElementById(id).classList.remove('oculto');
-      const activeButton = [...document.querySelectorAll('nav button')].find(btn => btn.textContent.includes(id === 'turnos' ? 'Turnos' : 'Estadísticas'));
+      
+      const textos = { turnos: 'Turnos', estadisticas: 'Estadísticas', datos: 'Datos' };
+      const activeButton = [...document.querySelectorAll('nav button')].find(btn => 
+        btn.textContent.includes(textos[id])
+      );
       if (activeButton) activeButton.classList.add('activo');
     }
 
     document.getElementById('btnAgregarTurno').addEventListener('click', agregarTurno);
+    document.getElementById('tipoTurno').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') agregarTurno();
+    });
 
     renderTurnos();
     renderStats();
+    actualizarPreview();
   </script>
 </body>
 </html>
